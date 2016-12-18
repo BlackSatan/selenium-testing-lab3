@@ -3,6 +3,7 @@ package bogdaniy.sellab.tasks;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -44,7 +45,9 @@ abstract public class BaseTask {
 
     abstract protected void validatePageData();
 
-    abstract protected WebElement getPageElement();
+    protected WebElement getPageElement() {
+        return driver.findElement(By.id("page-title"));
+    }
 
     public void execute() {
         try {

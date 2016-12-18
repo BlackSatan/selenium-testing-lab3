@@ -13,23 +13,17 @@ public class FirstTask extends BaseTask {
         super(i, listData);
     }
 
-    @Override
     protected void navigateToList() {
         WebElement linkTag = driver.findElement(By.linkText("Викладачі"));
         linkTag.click();
     }
 
-    @Override
     protected WebElement getTargetElementFromList() {
         List<WebElement> elementsList = driver.findElements(By.cssSelector(".field-item table tr td p a"));
         return elementsList.get(number - 1);
     }
 
-    protected WebElement getPageElement() {
-        return driver.findElement(By.id("page-title"));
-    }
-
-    protected void validatePageData() {;
+    protected void validatePageData() {
         WebElement content = driver.findElement(By.cssSelector("[property=\"content:encoded\"]"));
         if(content.getText().equals("Сторінка в стадії розробки.")) {
             System.out.println("Page in development, still niga");

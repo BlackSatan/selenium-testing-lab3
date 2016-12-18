@@ -1,8 +1,13 @@
 package bogdaniy.sellab.tasks;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
+import java.util.logging.Level;
 
 abstract public class BaseTask {
 
@@ -13,7 +18,18 @@ abstract public class BaseTask {
 
     public BaseTask(int i, String listData) {
         number = i;
-        driver = new HtmlUnitDriver();
+        driver = new HtmlUnitDriver(true) {
+            @Override
+            protected WebClient newWebClient(BrowserVersion version) {
+                WebClient webClient = super.newWebClient(version);
+                webClient.getOptions().setThrowExceptionOnScriptError(false);
+                return webClient;
+            }
+        };
+        //Ignore js errors
+        LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
+        java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
+        java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.OFF);
         driver.get("http://pma.fpm.kpi.ua/");
         this.listData = listData;
     }
